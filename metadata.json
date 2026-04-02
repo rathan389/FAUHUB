@@ -1,0 +1,5 @@
+{
+  "name": "Mobile Market & Hub",
+  "description": "A mobile-first web app for buying, selling, finding accommodations, and sharing public information like jobs. No login required.",
+  "requestFramePermissions": []
+}

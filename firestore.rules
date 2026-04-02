@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: listings
+    // Document ID: auto-generated
+    // Fields:
+    //   - title: string (required)
+    //   - description: string (required)
+    //   - price: string (optional)
+    //   - imageUrl: string (optional)
+    //   - contact: string (required)
+    //   - createdAt: number (required)
+    //   - category: string (required, 'sell' | 'buy' | 'accommodation' | 'public')
+    //   - location: string (optional)
+    //   - type: string (optional)
+    //   - uid: string (required, matches request.auth.uid)
+    //
+    // ===============================================================
+
+    function isValidListing(data) {
+      return data.keys().hasAll(['title', 'description', 'contact', 'createdAt', 'category']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 100 &&
+             data.description is string && data.description.size() > 0 && data.description.size() < 1000 &&
+             data.contact is string && data.contact.size() > 0 && data.contact.size() < 100 &&
+             data.createdAt is number &&
+             data.category in ['sell', 'buy', 'accommodation', 'public'];
+    }
+
+    match /listings/{listingId} {
+      allow read: if true;
+      allow create: if isValidListing(request.resource.data);
+      allow update, delete: if true; // Open access as requested
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "entities": {
+    "Listing": {
+      "title": "Listing",
+      "description": "A marketplace or community post",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the listing" },
+        "description": { "type": "string", "description": "Detailed description" },
+        "price": { "type": "string", "description": "Price or budget" },
+        "imageUrl": { "type": "string", "description": "URL to the image" },
+        "contact": { "type": "string", "description": "Contact information" },
+        "createdAt": { "type": "number", "description": "Timestamp of creation" },
+        "category": { "type": "string", "enum": ["sell", "buy", "accommodation", "public"] },
+        "location": { "type": "string", "description": "Location of the item/service" },
+        "type": { "type": "string", "description": "Sub-type for public posts (job, info, etc.)" }
+      },
+      "required": ["title", "description", "contact", "createdAt", "category"]
+    }
+  },
+  "firestore": {
+    "listings": {
+      "schema": { "$ref": "Listing" },
+      "description": "Collection of all marketplace and community listings"
+    }
+  }
+}
